@@ -32,11 +32,12 @@ func ConvertNumbers(number int) (output string) {
 		return Dict["one"][0]
 	}
 
-	// String array used for append parsed numbers
+	// Strings array used for append parsed numbers
 	var parsed []string
 
-	// Append "negative" to the start of array
+	// Check if number is negative
 	if number < 0 {
+		// Append "negative" to the start of array
 		parsed = append(parsed, "negative")
 		number *= -1
 	}
@@ -44,13 +45,18 @@ func ConvertNumbers(number int) (output string) {
 	// Dividing input number by three digits segments
 	var segments []int
 	for number > 0 {
-		segments = append(segments, number % 1000)
+		segments = append(segments, number%1000)
 		number = number / 1000
 	}
+
+	fmt.Println(segments)
 
 	// Get english worlds from segments
 	for idx := len(segments) - 1; idx >= 0; idx-- {
 		segment := segments[idx]
+
+		fmt.Println(idx)
+		fmt.Println(segment)
 
 		// Pass empty segment
 		if segment == 0 {
@@ -80,18 +86,18 @@ func ConvertNumbers(number int) (output string) {
 		default:
 			// Check if ten not like 20, 30, ..., 90
 			if units > 0 {
-				word := fmt.Sprintf("%s %s", Dict["ten"][tens], Dict["one"][units])
-				parsed = append(parsed, word)
+				num := fmt.Sprintf("%s %s", Dict["ten"][tens], Dict["one"][units])
+				parsed = append(parsed, num)
 			} else {
-				parsed = append(parsed, Dict["teen"][tens])
+				parsed = append(parsed, Dict["ten"][tens])
 			}
 			break
 		}
 
-	// Add 'big' suffix to segment
+		// Add 'big' suffix to segment
 	segmentsEnd:
 		if big := Dict["big"][idx]; big != "" {
-			parsed = append(parsed, big + ",")
+			parsed = append(parsed, big+",")
 		}
 	}
 
